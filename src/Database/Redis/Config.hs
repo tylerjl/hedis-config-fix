@@ -12,6 +12,7 @@ import Database.Redis
 import qualified Data.Aeson.Types as A
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.Text.Encoding as T
+import qualified Network.Socket as NS
 
 
 {- | Wrapper around 'ConnectInfo' to parse connection settings from
@@ -37,7 +38,7 @@ timeout: 30                     # connection timeout
 newtype RedisConfig = RedisConfig {getConnectInfo :: ConnectInfo}
 
 data SupportedParams = SupportedParams
-    { paramsHost :: HostName
+    { paramsHost :: NS.HostName
     , paramsPort :: PortID
     , paramsPassword :: Maybe BS.ByteString
     , paramsDatabase :: Integer
@@ -63,7 +64,6 @@ parsePort o =
     optional
     $   fmap (\a -> PortNumber $ floor (a :: Scientific)) (o .: "port")
     <|> fmap UnixSocket (o .: "socket")
-    <|> fmap Service (o .: "service")
 
 
 parsePassword :: Object -> A.Parser (Maybe BS.ByteString)

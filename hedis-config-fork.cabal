@@ -40,6 +40,7 @@ library
                      , aeson
                      , bytestring
                      , hedis        >= 0.9.12
+                     , network
                      , scientific
                      , text
                      , time
